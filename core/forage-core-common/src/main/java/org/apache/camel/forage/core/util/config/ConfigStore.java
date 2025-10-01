@@ -17,6 +17,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 
 /**
  * Centralized configuration store for the Camel Forage framework that manages configuration values
@@ -65,6 +67,9 @@ public final class ConfigStore {
     private static ConfigStore INSTANCE;
     private final Properties properties = new Properties();
     private ClassLoader classLoader;
+
+    @Autowired
+    private Environment springEnvironment;
 
     /**
      * Private constructor to enforce singleton pattern.
@@ -172,6 +177,15 @@ public final class ConfigStore {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+        } else {
+            // load from spring-boot environment
+            
+            System.out.println("SPRING ENVIRONMENT = " + springEnvironment);
+
+            if (springEnvironment != null) {
+                System.out.println("SPRING ENVIRONMENT = " + springEnvironment);
+            }
+
         }
     }
 
